@@ -5,7 +5,7 @@ const loadTools = () =>{
 }
 
 const displayTools = (tools) =>{
-    const toolsConatiner = document.getElementById('tools-container');
+    const toolsContainer = document.getElementById('tools-container');
     
     // display all AI tools
     tools.forEach(tool => {
@@ -15,22 +15,28 @@ const displayTools = (tools) =>{
         <div class="card" style="width: 25rem;">
         <img src="${tool.image}" class="card-img-top" alt="...">
         <div class="card-body">
-
-            <ol class="list-group list-group-flush">
-                <h5 class="card-title">Features</h5>
-                <li class="list-group-item">${tool.features[0]}</li>
-                <li class="list-group-item">${tool.features[1]}</li>
-                <li class="list-group-item">${tool.features[2]}</li>
+        <h5 class="card-title">Features</h5>
+            <ol class="list-group list-group-flush ps-4">
+                
+                <li>${tool.features[0] ? tool.features[0] : '<b class="text-danger">No Data Found</b>'}</li>
+                <li>${tool.features[1] ? tool.features[1] : '<b class="text-danger">No Data Found</b>'}</li>
+                <li>${tool.features[2] ? tool.features[2] : '<b class="text-danger">No Data Found</b>'}</li>
             </ol>
 
 
             <h4 class="card-title">${tool.name}</h4>
             <p class="card-text">${tool.published_in}</p>
         </div>
+        <button class="btn btn-info text-light"> Show Details </button>
     </div>`;
-    toolsConatiner.appendChild(toolDiv);
+    toolsContainer.appendChild(toolDiv);
         
     });
+}
+
+// load tool details
+const loadToolDetails = () =>{
+    
 }
 
 loadTools();
