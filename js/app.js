@@ -47,6 +47,14 @@ const displayToolDetails = tool =>{
     console.log(tool);
     const modalTitle = document.getElementById('toolDetailsModalLabel');
     modalTitle.innerText = tool.tool_name;
+
+    const leftCardTitle = document.getElementById('left-card-title');
+    leftCardTitle.innerText = tool.description;
+
+    const pricing = document.getElementById('pricing');
+    pricing.innerHTML = `
+    
+    `;
 }
 
 
