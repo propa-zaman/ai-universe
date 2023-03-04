@@ -49,11 +49,8 @@ const displayTools = (tools) => {
     // start loader
     toggleSpinner(true);
 
-  // stop loader
-  // toggleSpinner(false);
+ 
 }
-
-
 
 
 // see more button
