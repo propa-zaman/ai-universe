@@ -1,23 +1,22 @@
 const loadTools = () =>{
     fetch(`https://openapi.programming-hero.com/api/ai/tools`)
     .then(res => res.json())
-    .then(data => displayTools(data.data.tools))
+    .then(data => displayTools(data.data.tools.slice(0,6)))
 }
 
 const displayTools = (tools) =>{
     const toolsContainer = document.getElementById('tools-container');
-    toolsContainer.textContent = '';
 
     // display 6 AI tools
-    const showAll = document.getElementById('show-all');
-   if(tools.length > 6){
-    tools = tools.slice(0,6); 
-    showAll.classList.remove('d-none');
-   }
-   else{
-showAll.classList.add('d-none');
-   }
-    
+  //   const seeMore = document.getElementById('see-more');
+  //  if(tools.length > 6){
+  //   tools = tools.slice(0,6); 
+  //   seeMore.classList.remove('d-none');
+  //  }
+  //  else{
+  //   seeMore.classList.add('d-none');
+  //  }
+
     // display all AI tools
     tools.forEach(tool => {
         const toolDiv = document.createElement('div');
@@ -44,6 +43,15 @@ showAll.classList.add('d-none');
         
     });
 }
+
+// see more button
+const seeMore = () =>{
+  fetch(`https://openapi.programming-hero.com/api/ai/tools`)
+  .then(res => res.json())
+  .then(data => displayTools(data.data.tools.slice(6,12)))
+}
+
+
 
 // load tool details
 const loadToolDetails = async id =>{
