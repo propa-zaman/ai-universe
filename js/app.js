@@ -1,27 +1,34 @@
-const loadTools = () =>{
-    fetch(`https://openapi.programming-hero.com/api/ai/tools`)
+const loadTools = () => {
+  fetch(`https://openapi.programming-hero.com/api/ai/tools`)
     .then(res => res.json())
-    .then(data => displayTools(data.data.tools.slice(0,6)))
+    .then(data => displayTools(data.data.tools.slice(0, 6)))
 }
 
-const displayTools = (tools) =>{
-    const toolsContainer = document.getElementById('tools-container');
+const displayTools = (tools) => {
+  const toolsContainer = document.getElementById('tools-container');
 
-    // display 6 AI tools
-  //   const seeMore = document.getElementById('see-more');
-  //  if(tools.length > 6){
-  //   tools = tools.slice(0,6); 
-  //   seeMore.classList.remove('d-none');
-  //  }
-  //  else{
-  //   seeMore.classList.add('d-none');
-  //  }
+  // display 6 AI tools
+  const seeMore = document.getElementById('see-more');
+  if (tools.length > 6) {
+    seeMore.classList.add('d-none');
+  }
+  else {
+    seeMore.classList.remove('d-none');
+  }
 
-    // display all AI tools
-    tools.forEach(tool => {
-        const toolDiv = document.createElement('div');
-        toolDiv.classList.add('col');
-        toolDiv.innerHTML = `
+  //  sort by date call
+
+  document.getElementById('sort-by-date').addEventListener('click', function () {
+
+    sortByDate(tools);
+  })
+
+
+  // display all AI tools
+  tools.forEach(tool => {
+    const toolDiv = document.createElement('div');
+    toolDiv.classList.add('col');
+    toolDiv.innerHTML = `
         <div class="card" style="width: 25rem;">
         <img src="${tool.image}" class="card-img-top" alt="...">
         <div class="card-body">
@@ -40,42 +47,50 @@ const displayTools = (tools) =>{
         <button onclick = "loadToolDetails('${tool.id}')" href="#" class="btn btn-info text-light" data-bs-toggle="modal" data-bs-target="#toolDetailsModal">Show Details</button>
     </div>`;
     toolsContainer.appendChild(toolDiv);
-        
-    });
+
+  });
 }
 
+
+
 // see more button
-const seeMore = () =>{
+const seeMore = () => {
   fetch(`https://openapi.programming-hero.com/api/ai/tools`)
-  .then(res => res.json())
-  .then(data => displayTools(data.data.tools.slice(6,12)))
+    .then(res => res.json())
+    .then(data => displayTools(data.data.tools.slice(6, 12)))
+}
+
+// sort by date
+const sortByDate = (tools) => {
+  // newest first
+  tools.sort((a, b) => new Date(b.published_in) - new Date(a.published_in));
 }
 
 
 
 // load tool details
-const loadToolDetails = async id =>{
-    const url = `https://openapi.programming-hero.com/api/ai/tool/${id}`;
+const loadToolDetails = async id => {
+  const url = `https://openapi.programming-hero.com/api/ai/tool/${id}`;
 
-    const res = await fetch(url);
-    const data = await res.json();
-    displayToolDetails(data.data);
+  const res = await fetch(url);
+  const data = await res.json();
+  displayToolDetails(data.data);
 }
 
-const displayToolDetails = tool =>{
-    console.log(tool);
-    const modalTitle = document.getElementById('toolDetailsModalLabel');
-    modalTitle.innerText = tool.tool_name;
+const displayToolDetails = tool => {
+  console.log(tool);
+  const modalTitle = document.getElementById('toolDetailsModalLabel');
+  modalTitle.innerText = tool.tool_name;
 
-    const leftCardTitle = document.getElementById('left-card-title');
-    leftCardTitle.innerText = tool.description;
+  const leftCardTitle = document.getElementById('left-card-title');
+  leftCardTitle.innerText = tool.description;
 
 
-    document.getElementById('right-div').innerHTML = `
+  document.getElementById('right-div').innerHTML = `
          <img src="${tool.image_link[0] ? tool.image_link[0] : 'Not Found Image'}" class="card-img-top rounded" alt="...">
          <div class="accuracy">
                     ${tool.accuracy.score * 100 > 80 ? '<button class="btn btn-success">Accuracy: ' + tool.accuracy.score * 100 + '%</button>' : '<button class="btn btn-danger">Accuracy Low</button>'
-        }
+    }
 
         </div>
             <div class="card-body">
@@ -85,8 +100,8 @@ const displayToolDetails = tool =>{
             </div>
     `;
 
-    const divPricing = document.getElementById('pricing');
-    divPricing.innerHTML = `
+  const divPricing = document.getElementById('pricing');
+  divPricing.innerHTML = `
     <div class="col">
     <div class="card py-3 pricing-card ">
       <div class="card-body p-4  p-lg-1 text-center">
@@ -113,8 +128,8 @@ const displayToolDetails = tool =>{
 </div> 
     `;
 
-    const featureIntegration = document.getElementById('feature-integration');
-    featureIntegration.innerHTML = `
+  const featureIntegration = document.getElementById('feature-integration');
+  featureIntegration.innerHTML = `
     <div class="col">
     <div class="card pricing-card ">
       <div class="card-body p-1">
