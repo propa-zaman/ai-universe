@@ -27,7 +27,7 @@ const displayTools = (tools) =>{
             <h4 class="card-title">${tool.name}</h4>
             <p class="card-text">${tool.published_in}</p>
         </div>
-        <button class="btn btn-info text-light"> Show Details </button>
+        <button onclick = "loadToolDetails('${tool.id}')" href="#" class="btn btn-info text-light" data-bs-toggle="modal" data-bs-target="#toolDetailsModal">Show Details</button>
     </div>`;
     toolsContainer.appendChild(toolDiv);
         
@@ -35,9 +35,20 @@ const displayTools = (tools) =>{
 }
 
 // load tool details
-const loadToolDetails = () =>{
-    
+const loadToolDetails = async id =>{
+    const url = `https://openapi.programming-hero.com/api/ai/tool/${id}`;
+
+    const res = await fetch(url);
+    const data = await res.json();
+    displayToolDetails(data.data);
 }
+
+const displayToolDetails = tool =>{
+    console.log(tool);
+    const modalTitle = document.getElementById('toolDetailsModalLabel');
+    modalTitle.innerText = tool.tool_name;
+}
+
 
 loadTools();
 
