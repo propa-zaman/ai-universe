@@ -6,6 +6,8 @@ const loadTools = () =>{
 
 const displayTools = (tools) =>{
     const toolsContainer = document.getElementById('tools-container');
+
+    // display 6 AI tools
     
     // display all AI tools
     tools.forEach(tool => {
@@ -51,10 +53,76 @@ const displayToolDetails = tool =>{
     const leftCardTitle = document.getElementById('left-card-title');
     leftCardTitle.innerText = tool.description;
 
-    const pricing = document.getElementById('pricing');
-    pricing.innerHTML = `
-    
+
+    document.getElementById('right-div').innerHTML = `
+         <img src="${tool.image_link[0] ? tool.image_link[0] : 'Not Found Image'}" class="card-img-top rounded" alt="...">
+         <div class="accuracy">
+                    ${tool.accuracy.score * 100 > 80 ? '<button class="btn btn-success">Accuracy: ' + tool.accuracy.score * 100 + '%</button>' : '<button class="btn btn-danger">Accuracy Low</button>'
+        }
+
+        </div>
+            <div class="card-body">
+                <h5 class="card-title text-center">${tool.input_output_examples[0].input}</h5>
+                <p class="card-text text-center">${tool.input_output_examples[0].output}</p>
+                
+            </div>
     `;
+
+    const divPricing = document.getElementById('pricing');
+    divPricing.innerHTML = `
+    <div class="col">
+    <div class="card py-3 pricing-card ">
+      <div class="card-body p-4  p-lg-1 text-center">
+        <h5 class="card-title text-success">${tool.pricing[0].price}</h5>
+        <h5 class="card-title text-success">${tool.pricing[0].plan}</h5>
+      </div>
+    </div>
+  </div> 
+  <div class="col">
+  <div class="card py-3 pricing-card">
+    <div class="card-body p-4  p-lg-1 text-center">
+    <h5 class="card-title text-warning">${tool.pricing[1].price}</h5>
+    <h5 class="card-title text-warning">${tool.pricing[1].plan}</h5>
+    </div>
+  </div>
+</div> 
+<div class="col">
+<div class="card py-1 pricing-card">
+  <div class="card-body p-4 p-lg-1 text-center">
+    <h5 class="card-title text-danger">${tool.pricing[2].price}</h5>
+    <h5 class="card-title text-danger">${tool.pricing[2].plan}</h5>
+  </div>
+</div>
+</div> 
+    `;
+
+    const featureIntegration = document.getElementById('feature-integration');
+    featureIntegration.innerHTML = `
+    <div class="col">
+    <div class="card pricing-card ">
+      <div class="card-body p-1">
+        <h3 class="card-title fw-bold">Feature</h3>
+        <ul>
+        <li>${tool.features[1].feature_name} </li>
+        <li>${tool.features[2].feature_name} </li>
+        <li>${tool.features[3].feature_name} </li>
+        </ul>
+      </div>
+    </div>
+  </div> 
+  <div class="col">
+  <div class="card pricing-card ">
+    <div class="card-body p-1">
+    <h3 class="card-title fw-bold">Integration</h3>
+        <ul>
+        <li>${tool.integrations[0] ? tool.integrations[0] : '<b class="text-danger">No Data Found</b>'} </li>
+        <li>${tool.integrations[1] ? tool.integrations[1] : '<b class="text-danger">No Data Found</b>'} </li>
+        <li>${tool.integrations[2] ? tool.integrations[2] : '<b class="text-danger">No Data Found</b>'} </li>
+        </ul>
+    </div>
+  </div>
+</div> 
+    `
 }
 
 
