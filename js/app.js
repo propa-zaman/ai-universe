@@ -7,6 +7,8 @@ const loadTools = () => {
 const displayTools = (tools) => {
   const toolsContainer = document.getElementById('tools-container');
 
+
+
   // display 6 AI tools
   const seeMore = document.getElementById('see-more');
   if (tools.length > 6) {
@@ -16,12 +18,7 @@ const displayTools = (tools) => {
     seeMore.classList.remove('d-none');
   }
 
-  //  sort by date call
-
-  document.getElementById('sort-by-date').addEventListener('click', function () {
-
-    sortByDate(tools);
-  })
+  
 
 
   // display all AI tools
@@ -49,7 +46,13 @@ const displayTools = (tools) => {
     toolsContainer.appendChild(toolDiv);
 
   });
+    // start loader
+    toggleSpinner(true);
+
+  // stop loader
+  // toggleSpinner(false);
 }
+
 
 
 
@@ -60,13 +63,30 @@ const seeMore = () => {
     .then(data => displayTools(data.data.tools.slice(6, 12)))
 }
 
-// sort by date
-const sortByDate = (tools) => {
-  // newest first
-  tools.sort((a, b) => new Date(b.published_in) - new Date(a.published_in));
+//  sort by date call
+
+document.getElementById('sort-by-date').addEventListener('click', function () {
+  const sortByDate = async () => {
+    const url = `https://openapi.programming-hero.com/api/ai/tools`;
+    const res = await fetch(url);
+    const data = await res.json();
+   const mainData = data.data.tools;
+    // newest first
+    mainData.sort((a, b) => new Date(a.published_in) - new Date(b.published_in));
+  }
+  sortByDate();
+})
+
+// loader
+const toggleSpinner = isLoading =>{
+  const loaderSection = document.getElementById('loader');
+  if(isLoading){
+      loaderSection.classList.remove('d-none');
+  }
+  else{
+      loaderSection.classList.add('d-none');
+  }
 }
-
-
 
 // load tool details
 const loadToolDetails = async id => {
