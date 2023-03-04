@@ -6,8 +6,17 @@ const loadTools = () =>{
 
 const displayTools = (tools) =>{
     const toolsContainer = document.getElementById('tools-container');
+    toolsContainer.textContent = '';
 
     // display 6 AI tools
+    const showAll = document.getElementById('show-all');
+   if(tools.length > 6){
+    tools = tools.slice(0,6); 
+    showAll.classList.remove('d-none');
+   }
+   else{
+showAll.classList.add('d-none');
+   }
     
     // display all AI tools
     tools.forEach(tool => {
